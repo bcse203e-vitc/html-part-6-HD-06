@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dynamic Form Builder</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 30px;
+      background: #f4f6f8;
+    }
+    h2 {
+      text-align: center;
+      color: #333;
+    }
+    .form-builder {
+      max-width: 400px;
+      margin: auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
+    }
+    select, button, input {
+      padding: 8px;
+      margin: 10px 0;
+      width: 100%;
+      font-size: 14px;
+    }
+    button {
+      background: #007BFF;
+      border: none;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+    .error {
+      color: red;
+      font-size: 12px;
+    }
+    .form-input {
+      margin-bottom: 15px;
+    }
+  </style>
+</head>
+<body>
+  <h2>Dynamic Form Builder</h2>
+  <div class="form-builder">
+    <label for="inputType">Select Input Type:</label>
+    <select id="inputType">
+      <option value="text">Text</option>
+      <option value="email">Email</option>
+      <option value="password">Password</option>
+    </select>
+    <button onclick="addInput()">Add Input</button>
+
+    <form id="dynamicForm" onsubmit="return validateForm()">
+      <div id="formContainer"></div>
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+
+  <script>
+    let count = 0;
+    function addInput() {
+      const type = document.getElementById("inputType").value;
+      count++;
+      const container = document.getElementById("formContainer");
+
+      const div = document.createElement("div");
+      div.className = "form-input";
+      div.innerHTML = `
+        <label>${type.toUpperCase()} Input:</label>
+        <input type="${type}" id="input${count}" name="${type}${count}" />
+        <div class="error" id="error${count}"></div>
+      `;
+      container.appendChild(div);
+    }
+
+    function validateForm() {
+      let isValid = true;
+      const inputs = document.querySelectorAll("#formContainer input");
+
+      inputs.forEach((input, index) => {
+        const errorDiv = document.getElementById("error" + (index + 1));
+        errorDiv.innerHTML = ""; 
+
+        if (input.type === "text") {
+          const regex = /^[a-zA-Z ]+$/;
+          if (!regex.test(input.value)) {
+            errorDiv.innerHTML = "Enter only alphabets";
+            isValid = false;
+          }
+        } 
+        else if (input.type === "email") {
+          const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-z]{2,}$/;
+          if (!regex.test(input.value)) {
+            errorDiv.innerHTML = "Enter valid email";
+            isValid = false;
+          }
+        } 
+        else if (input.type === "password") {
+          const regex = /^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*]).{6,}$/;
+          if (!regex.test(input.value)) {
+            errorDiv.innerHTML = "Password must contain 6+ chars, 1 uppercase, 1 number, 1 special char";
+            isValid = false;
+          }
+        }
+      });
+      return isValid;
+    }
+  </script>
+</body>
+</html>

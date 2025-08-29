@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Continent-Country Dropdown</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .container {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    select {
+      padding: 10px;
+      margin: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>🌍 Select Continent & Country</h2>
+    
+    <label for="continent">Continent:</label>
+    <select id="continent">
+      <option value="">-- Select Continent --</option>
+      <option value="Asia">Asia</option>
+      <option value="Europe">Europe</option>
+      <option value="Africa">Africa</option>
+      <option value="North America">North America</option>
+      <option value="South America">South America</option>
+      <option value="Australia">Australia</option>
+    </select>
+    
+    <br>
+    
+    <label for="country">Country:</label>
+    <select id="country">
+      <option value="">-- Select Country --</option>
+    </select>
+  </div>
+
+  <script>
+    // 🌍 Continent-Country Mapping
+    const continentCountries = {
+      "Asia": ["India", "China", "Japan", "Nepal", "Thailand"],
+      "Europe": ["Germany", "France", "Italy", "Spain", "United Kingdom"],
+      "Africa": ["Nigeria", "South Africa", "Kenya", "Egypt", "Ethiopia"],
+      "North America": ["USA", "Canada", "Mexico", "Cuba"],
+      "South America": ["Brazil", "Argentina", "Chile", "Peru"],
+      "Australia": ["Australia", "New Zealand", "Fiji"]
+    };
+
+    const continentSelect = document.getElementById("continent");
+    const countrySelect = document.getElementById("country");
+
+    continentSelect.addEventListener("change", function() {
+      const selectedContinent = this.value;
+      
+      // Reset countries
+      countrySelect.innerHTML = '<option value="">-- Select Country --</option>';
+      
+      if (continentCountries[selectedContinent]) {
+        continentCountries[selectedContinent].forEach(country => {
+          let option = document.createElement("option");
+          option.value = country;
+          option.textContent = country;
+          countrySelect.appendChild(option);
+        });
+      }
+    });
+  </script>
+</body>
+</html>
