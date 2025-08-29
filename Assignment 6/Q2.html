@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Email Validation</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .container {
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0px 0px 8px rgba(0,0,0,0.2);
+      width: 320px;
+      text-align: center;
+    }
+    label {
+      font-weight: bold;
+    }
+    input {
+      width: 100%;
+      padding: 8px;
+      margin-top: 8px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    .message {
+      margin-top: 8px;
+      font-size: 14px;
+      display: none;
+    }
+    .error {
+      color: red;
+    }
+    .success {
+      color: green;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Email Validation</h2>
+    <form>
+      <label>Email:</label><br>
+      <input type="text" id="email"><br>
+      <div id="msg" class="message"></div>
+    </form>
+  </div>
+
+  <script>
+    const emailInput = document.getElementById("email");
+    const msg = document.getElementById("msg");
+
+    const emailPattern = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+
+    emailInput.onblur = function () {
+      if (emailInput.value.trim() === "") {
+        msg.style.display = "block";
+        msg.textContent = "Email field cannot be empty.";
+        msg.className = "message error";
+      } else if (!emailPattern.test(emailInput.value)) {
+        msg.style.display = "block";
+        msg.textContent = "Invalid email format.";
+        msg.className = "message error";
+      } else {
+        msg.style.display = "block";
+        msg.textContent = "Valid email address ✔";
+        msg.className = "message success";
+      }
+    };
+  </script>
+</body>
+</html>

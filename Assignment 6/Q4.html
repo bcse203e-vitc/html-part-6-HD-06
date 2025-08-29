@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dynamic Hobbies Form</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .container {
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0px 0px 8px rgba(0,0,0,0.2);
+      width: 360px;
+    }
+    h2 {
+      text-align: center;
+    }
+    .hobby-field {
+      margin-bottom: 12px;
+    }
+    input {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    button {
+      margin-top: 10px;
+      padding: 8px 15px;
+      border: none;
+      border-radius: 6px;
+      background: #007bff;
+      color: #fff;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+    .message {
+      font-size: 13px;
+      margin-top: 4px;
+      display: none;
+    }
+    .error {
+      color: red;
+    }
+    .success {
+      color: green;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Hobbies Form</h2>
+    <form id="hobbyForm">
+      <div id="hobbiesContainer">
+        <div class="hobby-field">
+          <input type="text" name="hobby" placeholder="Enter a hobby">
+          <div class="message"></div>
+        </div>
+      </div>
+      <button type="button" id="addHobbyBtn">Add Hobby</button>
+    </form>
+  </div>
+
+  <script>
+    const hobbiesContainer = document.getElementById("hobbiesContainer");
+    const addHobbyBtn = document.getElementById("addHobbyBtn");
+
+    // Regex for only alphabets and spaces
+    const hobbyPattern = /^[A-Za-z\s]+$/;
+
+    // Function to validate a hobby field
+    function validateHobby(input, msgBox) {
+      if (input.value.trim() === "") {
+        msgBox.style.display = "none"; // No message if empty
+      } else if (!hobbyPattern.test(input.value)) {
+        msgBox.style.display = "block";
+        msgBox.textContent = "Only alphabets and spaces allowed.";
+        msgBox.className = "message error";
+      } else {
+        msgBox.style.display = "block";
+        msgBox.textContent = "Valid hobby ✔";
+        msgBox.className = "message success";
+      }
+    }
+
+    // Attach validation to an input field
+    function attachValidation(input, msgBox) {
+      input.addEventListener("input", () => validateHobby(input, msgBox));
+    }
+
+    // Add Hobby button click event
+    addHobbyBtn.addEventListener("click", () => {
+      const hobbyField = document.createElement("div");
+      hobbyField.classList.add("hobby-field");
+
+      const input = document.createElement("input");
+      input.type = "text";
+      input.name = "hobby";
+      input.placeholder = "Enter a hobby";
+
+      const msgBox = document.createElement("div");
+      msgBox.classList.add("message");
+
+      hobbyField.appendChild(input);
+      hobbyField.appendChild(msgBox);
+      hobbiesContainer.appendChild(hobbyField);
+
+      // Attach validation to new input
+      attachValidation(input, msgBox);
+    });
+
+    // Attach validation to the initial input
+    const firstInput = hobbiesContainer.querySelector("input");
+    const firstMsg = hobbiesContainer.querySelector(".message");
+    attachValidation(firstInput, firstMsg);
+  </script>
+</body>
+</html>
