@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hex Color Validation with Preview</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    label {
+      font-weight: bold;
+    }
+    #preview {
+      width: 50px;
+      height: 50px;
+      display: inline-block;
+      margin-left: 10px;
+      border: 1px solid #333;
+      vertical-align: middle;
+    }
+    #error {
+      color: red;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <h2>Hexadecimal Color Code Validation with Live Preview</h2>
+  <form id="colorForm">
+    <label for="color">Enter Hex Color:</label>
+    <input type="text" id="color" placeholder="#FFF or #FFFFFF">
+    <div id="preview"></div>
+    <p id="error"></p>
+    <br><br>
+    <button type="submit">Submit</button>
+  </form>
+
+  <script>
+    const colorInput = document.getElementById("color");
+    const previewBox = document.getElementById("preview");
+    const errorMsg = document.getElementById("error");
+    const form = document.getElementById("colorForm");
+
+    const regex = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/;
+
+    // Live preview as user types
+    colorInput.addEventListener("input", () => {
+      const value = colorInput.value;
+      if (regex.test(value)) {
+        previewBox.style.backgroundColor = value;
+        errorMsg.textContent = "";
+      } else {
+        previewBox.style.backgroundColor = "transparent";
+        errorMsg.textContent = "Invalid color code format!";
+      }
+    });
+
+    // On form submit
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      if (!regex.test(colorInput.value)) {
+        alert("Please enter a valid hex color code (e.g., #FFF or #FFFFFF)");
+      } else {
+        alert("Valid hex color code submitted: " + colorInput.value);
+      }
+    });
+  </script>
+</body>
+</html>
